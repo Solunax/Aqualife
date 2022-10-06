@@ -22,8 +22,8 @@ class FeedFragment : Fragment() {
         return binding!!.root
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
+        super.onDestroyView()
         binding = null
-        super.onDestroy()
     }
 }

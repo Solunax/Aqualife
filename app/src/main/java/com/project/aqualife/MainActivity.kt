@@ -9,7 +9,8 @@ import com.project.aqualife.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private var binding : ActivityMainBinding? = null
-    private var tabName = listOf("PH", "HOME", "FILTRATION", "FEED", "LIGHT", "REGULATOR", "TEMPERATURE")
+    private var tabName = listOf("PH", "HOME", "FILTRATION", "LIGHT", "REGULATOR", "TEMPERATURE")
+    var viewPager : ViewPager2? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,17 +18,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding!!.root)
 
         val tabLayout = binding!!.tabLayout
-        val viewPager = binding!!.viewPager
+        viewPager = binding!!.viewPager
 
-        viewPager.adapter = ViewPagerAdapter(this)
-        viewPager.currentItem = 1
+        viewPager!!.adapter = ViewPagerAdapter(this)
+        viewPager!!.currentItem = 1
 
-        TabLayoutMediator(tabLayout, viewPager){ tab, pos ->
+        TabLayoutMediator(tabLayout, viewPager!!){ tab, pos ->
             tab.text = tabName[pos]
         }.attach()
 
         // ViewPager 순환 스크롤
-        viewPager.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
+        viewPager?.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
             var currentPos = 0
             var currentState = 0
 
@@ -40,12 +41,12 @@ class MainActivity : AppCompatActivity() {
             private fun handleScroll(state : Int){
                 if(state == ViewPager2.SCROLL_STATE_IDLE && currentState == ViewPager2.SCROLL_STATE_DRAGGING){
                     if(currentState != ViewPager2.SCROLL_STATE_SETTLING){
-                        val lastPosition = viewPager.adapter?.itemCount!!.minus(1)
+                        val lastPosition = viewPager!!.adapter?.itemCount!!
 
                         if(currentPos == 0)
-                            viewPager.currentItem = lastPosition
+                            viewPager!!.currentItem = lastPosition
                         else
-                            viewPager.currentItem = 0
+                            viewPager!!.currentItem = 0
                     }
                 }
             }
@@ -55,7 +56,6 @@ class MainActivity : AppCompatActivity() {
                 super.onPageSelected(position)
             }
         })
-
     }
 
     override fun onDestroy() {

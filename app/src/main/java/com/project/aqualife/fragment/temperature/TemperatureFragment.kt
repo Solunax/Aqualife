@@ -1,4 +1,4 @@
-package com.project.aqualife.fragment
+package com.project.aqualife.fragment.temperature
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,12 +18,11 @@ class TemperatureFragment : Fragment(){
     ): View {
         binding = TemperatureFragmentBinding.inflate(inflater, container, false)
 
-
         return binding!!.root
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
+        super.onDestroyView()
         binding = null
-        super.onDestroy()
     }
 }

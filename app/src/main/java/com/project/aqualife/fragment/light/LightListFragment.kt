@@ -1,28 +1,27 @@
-package com.project.aqualife.fragment
+package com.project.aqualife.fragment.light
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.project.aqualife.databinding.LightFragmentBinding
+import com.project.aqualife.databinding.LightListFragmentBinding
 
-class LightFragment : Fragment() {
-    private var binding : LightFragmentBinding? = null
+class LightListFragment : Fragment() {
+    private var binding : LightListFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = LightFragmentBinding.inflate(inflater, container, false)
-
+        binding = LightListFragmentBinding.inflate(inflater, container, false)
 
         return binding!!.root
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
+        super.onDestroyView()
         binding = null
-        super.onDestroy()
     }
 }
