@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.project.aqualife.databinding.HomeFragmentBinding
 import com.project.aqualife.databinding.PhFragmentBinding
 
 class PHFragment : Fragment() {

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.project.aqualife.databinding.FiltrationFragmentBinding
-import com.project.aqualife.databinding.HomeFragmentBinding
 
 class FiltrationFragment : Fragment() {
     private var binding : FiltrationFragmentBinding? = null

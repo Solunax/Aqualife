@@ -1,8 +1,6 @@
 package com.project.aqualife.fragment.light
 
-import android.annotation.SuppressLint
 import android.graphics.PorterDuff
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
