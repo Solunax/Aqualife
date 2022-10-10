@@ -11,6 +11,7 @@
         android:layout_height="160dp"
         android:rotation="180"
         android:src="@drawable/light_bulb"
+        app:tint="@color/gray"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

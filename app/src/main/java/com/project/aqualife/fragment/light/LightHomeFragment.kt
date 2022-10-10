@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.project.aqualife.MainActivity
 import com.project.aqualife.adapter.LightPagerAdapter
 import com.project.aqualife.databinding.LightHomeFragmentBinding
+import com.project.aqualife.fragment.OnBackPressedListener
 
-class LightHomeFragment : Fragment() {
+class LightHomeFragment : Fragment(), OnBackPressedListener {
     private var binding : LightHomeFragmentBinding? = null
     private lateinit var viewPager : ViewPager2
-    private lateinit var callback : OnBackPressedCallback
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,21 +35,25 @@ class LightHomeFragment : Fragment() {
                 viewPager.currentItem = 1
         }
 
-        // 뒤로가기 버튼 터치시 콜백
-        callback = object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                if(viewPager.currentItem != 0)
-                    viewPager.currentItem = viewPager.currentItem - 1
-            }
-        }
-
-        requireActivity().onBackPressedDispatcher.addCallback(callback)
 
         return binding!!.root
     }
 
+    override fun onBackPressed() {
+        if(viewPager.currentItem != 0)
+            viewPager.currentItem = viewPager.currentItem - 1
+        else
+            (activity as MainActivity).viewPager?.currentItem = 1
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).setOnBackPressedListener(this)
+    }
+
     override fun onPause() {
         super.onPause()
+        (activity as MainActivity).setOnBackPressedListener(null)
         viewPager.currentItem = 0
     }
 

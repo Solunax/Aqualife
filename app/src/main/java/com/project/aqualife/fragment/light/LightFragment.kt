@@ -1,6 +1,5 @@
 package com.project.aqualife.fragment.light
 
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,11 +24,11 @@ class LightFragment : Fragment() {
         val light = binding!!.lightBulb
 
         lightOn.setOnClickListener {
-                light.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.mYellow), PorterDuff.Mode.SRC_IN)
+                light.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.mYellow))
         }
 
         lightOff.setOnClickListener {
-            light.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.black), PorterDuff.Mode.SRC_IN)
+            light.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.gray))
         }
 
         return binding!!.root
