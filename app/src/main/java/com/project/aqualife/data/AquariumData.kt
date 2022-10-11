@@ -7,7 +7,7 @@ data class AquariumData(
     val filtrationRemain : String,
     val filtrationState : String,
 
-    val lightReservation : String,
+    val lightReservation : ArrayList<TemperatureRegulatorSchedule>,
     val lightState : String,
 
     val co2State : String,

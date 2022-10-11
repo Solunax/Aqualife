@@ -20,17 +20,21 @@ class AuthRepository {
     private val aquariumDataArray = ArrayList<AquariumData>()
 
     // 로그인
-    fun getUserData(id : String, pw : String): Boolean {
-        var successFlag = false
+    fun getUserData(id : String, pw : String){
         firebaseAuth.signInWithEmailAndPassword(id, pw).addOnCompleteListener {
-            if(it.isSuccessful){
+            if(it.isSuccessful)
                 _userLiveData.postValue(firebaseAuth.currentUser)
-                successFlag = true
-            }else{
+            else
                 _userLiveData.postValue(firebaseAuth.currentUser)
-            }
         }
-        return successFlag
+    }
+
+    // 회원가입
+    fun register(id : String, pw : String) {
+        firebaseAuth.createUserWithEmailAndPassword(id, pw).addOnCompleteListener {
+            if(it.isSuccessful)
+                _userLiveData.postValue(firebaseAuth.currentUser)
+        }
     }
 
     // 장치 On/Off 상태 변경
@@ -71,9 +75,16 @@ class AuthRepository {
                     val date = v.child("date").value.toString()
                     val filtrationRemain = v.child("filtration").child("remain").value.toString()
                     val filtrationState = v.child("filtration").child("state").value.toString()
-                    val lightReservation = v.child("light").child("reservation").value.toString()
+
+                    val lightReservation = ArrayList<TemperatureRegulatorSchedule>()
+                    v.child("light").child("reservation").children.forEach {
+                        val rName = it.key.toString()
+                        val start = it.child("start").value.toString()
+                        val end = it.child("end").value.toString()
+                        val state = it.child("state").value.toString()
+                        lightReservation.add(TemperatureRegulatorSchedule(name, start, end, rName, state, "light"))
+                    }
                     val lightState = v.child("light").child("state").value.toString()
-                    val co2State = v.child("co2").child("state").value.toString()
 
                     val co2Reservation = ArrayList<TemperatureRegulatorSchedule>()
                     v.child("co2").child("reservation").children.forEach {
@@ -81,9 +92,9 @@ class AuthRepository {
                         val start = it.child("start").value.toString()
                         val end = it.child("end").value.toString()
                         val state = it.child("state").value.toString()
-                        co2Reservation.add(TemperatureRegulatorSchedule(name, start, end, rName, state))
+                        co2Reservation.add(TemperatureRegulatorSchedule(name, start, end, rName, state, "co2"))
                     }
-                    Log.d("DEB", co2Reservation.size.toString())
+                    val co2State = v.child("co2").child("state").value.toString()
 
                     val phWarningMin = v.child("ph").child("warning_min").value.toString()
                     val phWarningMax = v.child("ph").child("warning_max").value.toString()

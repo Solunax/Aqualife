@@ -19,10 +19,17 @@ class TemperatureRegulatorScheduleRecyclerAdapter(private val viewModel : AuthVi
 
             binding.powerControl.isChecked = data.state == "on"
             binding.powerControl.setOnCheckedChangeListener { _, value ->
+                var type = ""
+
+                if(data.type == "co2")
+                    type = "co2"
+                else if(data.type == "light")
+                    type = "light"
+
                 if(value)
-                    viewModel.scheduleControl(data.aquariumName, data.name, "co2", "on")
+                    viewModel.scheduleControl(data.aquariumName, data.name, type, "on")
                 else
-                    viewModel.scheduleControl(data.aquariumName, data.name, "co2", "off")
+                    viewModel.scheduleControl(data.aquariumName, data.name, type, "off")
             }
         }
     }

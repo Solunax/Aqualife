@@ -17,6 +17,11 @@ class AuthViewModel : ViewModel() {
         authRepository.getUserData(id, pw)
     }
 
+    // 회원가입
+    fun register(id : String, pw : String){
+        authRepository.register(id, pw)
+    }
+
     // 어항 데이터 가져오기
     fun getAquariumData(){
         authRepository.getAquariumData()

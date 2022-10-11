@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:padding="8dp"
@@ -20,7 +19,6 @@
         app:layout_constraintVertical_bias="0.101" />
 
     <TextView
-        android:id="@+id/find_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="회원가입"
@@ -67,6 +65,7 @@
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:background="@drawable/login_background"
+        android:inputType="textPassword"
         android:ems="12"
         android:hint="비밀번호"
         android:paddingLeft="5dp"
@@ -82,6 +81,7 @@
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:background="@drawable/login_background"
+        android:inputType="textPassword"
         android:ems="12"
         android:hint="비밀번호 확인"
         android:paddingLeft="5dp"
@@ -93,7 +93,7 @@
         app:layout_constraintVertical_bias="0.55" />
 
     <EditText
-        android:id="@+id/user_id"
+        android:id="@+id/phone_number"
         android:layout_width="257dp"
         android:layout_height="53dp"
         android:layout_weight="5"
