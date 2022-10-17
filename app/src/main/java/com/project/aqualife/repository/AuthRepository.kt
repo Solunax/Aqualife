@@ -60,7 +60,17 @@ class AuthRepository {
     // 온도 고정값 변경
     fun changeHolding(name : String, value : Int){
         val reference = firebaseDB.reference.child("${firebaseAuth.uid}")
-        reference.child(name).child("temperature").child("holding").setValue(value)
+        reference.child(name).child("temperature").child("holdi" +
+                "ng").setValue(value)
+    }
+
+    // Ph Max. Min 변경
+    fun changePhSetting(name : String, Maxvalue : Float, Minvalue: Float){
+        val a = String.format("%.1f",Maxvalue)
+        val b = String.format("%.1f",Minvalue)
+        val reference = firebaseDB.reference.child("${firebaseAuth.uid}").child(name).child("ph")
+        reference.child("warning_max").setValue(a)
+        reference.child("warning_min").setValue(b)
     }
 
     // 어항 데이터 가져오기

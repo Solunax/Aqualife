@@ -50,9 +50,4 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        authViewModel.logout()
-    }
 }

@@ -47,6 +47,10 @@ class AuthViewModel : ViewModel() {
         authRepository.changeHolding(name, value)
     }
 
+    fun changePhSetting(name : String, Maxvalue : Float, Minvalue : Float){
+        authRepository.changePhSetting(name, Maxvalue, Minvalue)
+    }
+
     fun logout(){
         authRepository.logout()
     }
