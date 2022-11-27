@@ -2,9 +2,11 @@ package com.project.aqualife.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.project.aqualife.repository.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AuthViewModel : ViewModel() {
-    private val authRepository = AuthRepository()
+@HiltViewModel
+class AuthViewModel @Inject constructor(private val authRepository : AuthRepository) : ViewModel() {
     private val _userLiveData = authRepository.userLiveData
     val userLiveData get() = _userLiveData
 

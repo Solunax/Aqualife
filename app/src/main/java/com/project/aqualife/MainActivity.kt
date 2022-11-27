@@ -17,7 +17,9 @@ import com.project.aqualife.databinding.ActivityMainBinding
 import com.project.aqualife.fragment.OnBackPressedListener
 import com.project.aqualife.viewModel.DataViewModel
 import com.project.aqualife.viewModel.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private var tabName = listOf("PH", "HOME", "FILTRATION", "LIGHT", "REGULATOR", "TEMPERATURE")
@@ -80,14 +82,21 @@ class MainActivity : AppCompatActivity() {
 
             private fun handleScroll(state : Int){
                 if(state == ViewPager2.SCROLL_STATE_IDLE && currentState == ViewPager2.SCROLL_STATE_DRAGGING){
-                    if(currentState != ViewPager2.SCROLL_STATE_SETTLING){
-                        val lastPosition = viewPager!!.adapter?.itemCount!!
+                    val lastPosition = viewPager!!.adapter?.itemCount!!
 
-                        if(currentPos == 0)
-                            viewPager!!.currentItem = lastPosition
-                        else
-                            viewPager!!.currentItem = 0
-                    }
+                    if(currentPos == 0)
+                        viewPager!!.currentItem = lastPosition
+                    else
+                        viewPager!!.currentItem = 0
+
+//                    if(currentState != ViewPager2.SCROLL_STATE_SETTLING){
+//                        val lastPosition = viewPager!!.adapter?.itemCount!!
+//
+//                        if(currentPos == 0)
+//                            viewPager!!.currentItem = lastPosition
+//                        else
+//                            viewPager!!.currentItem = 0
+//                    }
                 }
             }
 

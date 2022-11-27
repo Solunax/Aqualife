@@ -7,8 +7,14 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.project.aqualife.data.AquariumData
 import com.project.aqualife.data.TemperatureRegulatorSchedule
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Inject
 
-class AuthRepository {
+@Module
+@InstallIn(SingletonComponent::class)
+class AuthRepository @Inject constructor() {
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val firebaseDB = FirebaseDatabase.getInstance()
 

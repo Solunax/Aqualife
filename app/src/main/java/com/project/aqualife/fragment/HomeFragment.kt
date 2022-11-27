@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import com.project.aqualife.MainActivity
 import com.project.aqualife.R
 import com.project.aqualife.databinding.HomeFragmentBinding
@@ -15,8 +15,8 @@ import com.project.aqualife.viewModel.AuthViewModel
 
 class HomeFragment :Fragment(){
     private var binding : HomeFragmentBinding? = null
-    private lateinit var authViewModel : AuthViewModel
-    private lateinit var dataViewModel : DataViewModel
+    private val authViewModel by activityViewModels<AuthViewModel>()
+    private val dataViewModel by activityViewModels<DataViewModel>()
     private var recentAquariumIndex = 0
 
     override fun onCreateView(
@@ -25,8 +25,6 @@ class HomeFragment :Fragment(){
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false)
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
-        dataViewModel = ViewModelProvider(requireActivity())[DataViewModel::class.java]
 
         val temperature = binding!!.temperature
         val filtration = binding!!.filtration

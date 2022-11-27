@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.aqualife.MainActivity
 import com.project.aqualife.R
@@ -17,8 +17,8 @@ import com.project.aqualife.viewModel.DataViewModel
 
 class LightFragment : Fragment() {
     private var binding : LightFragmentBinding? = null
-    private lateinit var authViewModel : AuthViewModel
-    private lateinit var dataViewModel : DataViewModel
+    private val authViewModel by activityViewModels<AuthViewModel>()
+    private val dataViewModel by activityViewModels<DataViewModel>()
     private val recyclerAdapter : LightRecyclerAdapter by lazy{ LightRecyclerAdapter() }
 
     override fun onCreateView(
@@ -27,9 +27,6 @@ class LightFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = LightFragmentBinding.inflate(inflater, container, false)
-
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
-        dataViewModel = ViewModelProvider(requireActivity())[DataViewModel::class.java]
 
         val recycler = binding!!.aquariumRecycler
         val lightOn = binding!!.lightOn

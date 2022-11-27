@@ -6,7 +6,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.project.aqualife.databinding.RegisterActivityBinding
 import com.project.aqualife.viewModel.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding : RegisterActivityBinding
     private val authViewModel : AuthViewModel by viewModels()

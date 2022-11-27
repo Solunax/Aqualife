@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.aqualife.MainActivity
 import com.project.aqualife.R
@@ -17,8 +17,8 @@ import com.project.aqualife.viewModel.AuthViewModel
 
 class RegulatorFragment : Fragment() {
     private var binding : RegulatorFragmentBinding? = null
-    private lateinit var authViewModel : AuthViewModel
-    private lateinit var dataViewModel : DataViewModel
+    private val authViewModel by activityViewModels<AuthViewModel>()
+    private val dataViewModel by activityViewModels<DataViewModel>()
     private val recyclerAdapter : RegulatorRecyclerAdapter by lazy{ RegulatorRecyclerAdapter() }
 
     override fun onCreateView(
@@ -27,9 +27,6 @@ class RegulatorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = RegulatorFragmentBinding.inflate(inflater, container, false)
-
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
-        dataViewModel = ViewModelProvider(requireActivity())[DataViewModel::class.java]
 
         val recycler = binding!!.aquariumRecycler
         val regulator = binding!!.regulatorText

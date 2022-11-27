@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.aqualife.MainActivity
 import com.project.aqualife.databinding.RegulatorListFragmentBinding
@@ -16,8 +16,8 @@ import com.project.aqualife.viewModel.DataViewModel
 class RegulatorListFragment : Fragment() {
     private var binding : RegulatorListFragmentBinding? = null
     private val recyclerAdapter : TemperatureRegulatorScheduleRecyclerAdapter by lazy{ TemperatureRegulatorScheduleRecyclerAdapter(authViewModel) }
-    private lateinit var authViewModel : AuthViewModel
-    private lateinit var dataViewModel : DataViewModel
+    private val authViewModel by activityViewModels<AuthViewModel>()
+    private val dataViewModel by activityViewModels<DataViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,9 +25,6 @@ class RegulatorListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = RegulatorListFragmentBinding.inflate(inflater, container, false)
-
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
-        dataViewModel = ViewModelProvider(requireActivity())[DataViewModel::class.java]
 
         val recycler = binding!!.aquariumRecycler
 

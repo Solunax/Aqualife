@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import com.project.aqualife.MainActivity
 import com.project.aqualife.databinding.LightScheduleAddFragmentBinding
 import com.project.aqualife.viewModel.AuthViewModel
 
 class LightScheduleAddFragment : Fragment() {
     private var binding : LightScheduleAddFragmentBinding? = null
-    private lateinit var authViewModel : AuthViewModel
+    private val authViewModel by activityViewModels<AuthViewModel>()
     private var startTime = ""
     private var endTime = ""
 
@@ -23,8 +23,6 @@ class LightScheduleAddFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = LightScheduleAddFragmentBinding.inflate(inflater, container, false)
-
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
 
         val add = binding!!.addSchedule
         val start = binding!!.startTime

@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import com.project.aqualife.MainActivity
 import com.project.aqualife.databinding.PhSettingFragmentBinding
 import com.project.aqualife.viewModel.AuthViewModel
 
 class PhSettingFragment : Fragment() {
     private var binding : PhSettingFragmentBinding? = null
-    private lateinit var authViewModel : AuthViewModel
+    private val authViewModel by activityViewModels<AuthViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,8 +21,6 @@ class PhSettingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = PhSettingFragmentBinding.inflate(inflater, container, false)
-
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
 
         val numberPickerF1 = binding!!.firstNumber1
         val numberPickerF2 = binding!!.firstNumber2
@@ -56,12 +54,12 @@ class PhSettingFragment : Fragment() {
             if (numberF1 >= numberF2 && numberS1 >= numberS2) {
                 Toast.makeText(context, ".PH 설정 값 오류!! 다시 설정하세요.", Toast.LENGTH_LONG).show()
             }else {
-                val MinValue = "${numberF1}.${numberS1}".toFloat()
-                val MaxValue = "${numberF2}.${numberS2}".toFloat()
-                authViewModel.changePhSetting((activity as MainActivity).getSpinnerData().first, MaxValue, MinValue)
+                val minValue = "${numberF1}.${numberS1}".toFloat()
+                val maxValue = "${numberF2}.${numberS2}".toFloat()
+                authViewModel.changePhSetting((activity as MainActivity).getSpinnerData().first, maxValue, minValue)
                 (activity as MainActivity).onBackPressed()
 
-                Toast.makeText(context, ".PH 설정 완료$MinValue ~ $MaxValue", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, ".PH 설정 완료$minValue ~ $maxValue", Toast.LENGTH_LONG).show()
             }
         }
 
