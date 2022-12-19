@@ -66,8 +66,7 @@ class AuthRepository @Inject constructor() {
     // 온도 고정값 변경
     fun changeHolding(name : String, value : Int){
         val reference = firebaseDB.reference.child("${firebaseAuth.uid}")
-        reference.child(name).child("temperature").child("holdi" +
-                "ng").setValue(value)
+        reference.child(name).child("temperature").child("holding").setValue(value)
     }
 
     // Ph Max. Min 변경
@@ -77,6 +76,13 @@ class AuthRepository @Inject constructor() {
         val reference = firebaseDB.reference.child("${firebaseAuth.uid}").child(name).child("ph")
         reference.child("warning_max").setValue(a)
         reference.child("warning_min").setValue(b)
+    }
+
+    fun changeFiltSetting(name: String, dayCode: String, startTime : String ,amount: Int) {
+        val reference = firebaseDB.reference.child("${firebaseAuth.uid}").child(name).child("filtration")
+        reference.child("dayCode").setValue(dayCode)
+        reference.child("startTime").setValue(startTime)
+        reference.child("amount").setValue(amount)
     }
 
     // 어항 데이터 가져오기
@@ -115,10 +121,17 @@ class AuthRepository @Inject constructor() {
                     val phWarningMin = v.child("ph").child("warning_min").value.toString()
                     val phWarningMax = v.child("ph").child("warning_max").value.toString()
                     val phValue = v.child("ph").child("value").value.toString()
+
+                    val filtDayCode = v.child("filtration").child("dayCode").value.toString()
+                    val filtAmount = v.child("filtration").child("amount").value.toString()
+                    val filtStartTime = v.child("filtration").child("startTime").value.toString()
+                    val filtRemain = v.child("filtration").child("remain").value.toString()
+
+
                     val temperatureHolding = v.child("temperature").child("holding").value.toString()
                     val temperatureValue = v.child("temperature").child("value").value.toString()
 
-                    aquariumDataArray.add(AquariumData(name, date, filtrationRemain, filtrationState, lightReservation, lightState, co2State, co2Reservation, phWarningMin, phWarningMax, phValue, temperatureHolding, temperatureValue))
+                    aquariumDataArray.add(AquariumData(name, date, filtrationRemain, filtrationState, lightReservation, lightState, co2State, co2Reservation, phWarningMin, phWarningMax, phValue, temperatureHolding, temperatureValue, filtDayCode,filtAmount,filtStartTime, filtRemain))
                 }
                 _aquariumData.postValue(aquariumDataArray)
             }

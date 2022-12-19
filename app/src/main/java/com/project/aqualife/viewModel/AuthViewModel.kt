@@ -53,6 +53,11 @@ class AuthViewModel @Inject constructor(private val authRepository : AuthReposit
         authRepository.changePhSetting(name, Maxvalue, Minvalue)
     }
 
+    fun changeFiltSetting(name : String, dayCode : String, time : String, filtCount : Int) {
+        authRepository.changeFiltSetting(name, dayCode,time, filtCount)
+    }
+
+
     fun logout(){
         authRepository.logout()
     }

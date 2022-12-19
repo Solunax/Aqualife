@@ -18,5 +18,10 @@ data class AquariumData(
     val phValue : String,
 
     val temperatureHolding : String,
-    val temperatureValue : String
+    val temperatureValue : String,
+
+    val filtDayCode : String,
+    val filtAmount : String,
+    val filtStartTime : String,
+    val filtRemain: String
     )

@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.project.aqualife.fragment.*
+import com.project.aqualife.fragment.filtration.FiltrationHomeFragment
 import com.project.aqualife.fragment.light.LightHomeFragment
 import com.project.aqualife.fragment.ph.PhHomeFragment
 import com.project.aqualife.fragment.regulator.RegulatorHomeFragment
@@ -16,7 +17,7 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapte
         return when(position){
             0 -> PhHomeFragment()
             1 -> HomeFragment()
-            2 -> FiltrationFragment()
+            2 -> FiltrationHomeFragment()
             3 -> LightHomeFragment()
             4 -> RegulatorHomeFragment()
             5 -> TemperatureHomeFragment()
