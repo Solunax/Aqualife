@@ -1,5 +1,9 @@
 package com.project.aqualife
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +13,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.app.NotificationCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.project.aqualife.adapter.ViewPagerAdapter
@@ -23,12 +28,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private var tabName = listOf("PH", "HOME", "FILTRATION", "LIGHT", "REGULATOR", "TEMPERATURE")
+    private val channelID = "com.project.aqualife"
     var viewPager : ViewPager2? = null
     private val authViewModel : AuthViewModel by viewModels()
     private val dataViewModel : DataViewModel by viewModels()
     private var backPressedListener : OnBackPressedListener? = null
     private var backPressedTime = 0L
     lateinit var aquariumSpinner : Spinner
+    lateinit var notificationManager : NotificationManager
     var aquariumList = ArrayList<AquariumData>()
     private val aquariumName = ArrayList<String>()
 
@@ -38,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         aquariumSpinner = binding.spinner
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        createChannel()
 
         val tabLayout = binding.tabLayout
         viewPager = binding.viewPager
@@ -55,6 +64,14 @@ class MainActivity : AppCompatActivity() {
                 if(!aquariumName.contains(v.name)){
                     isChanged = true
                     aquariumName.add(v.name)
+                }
+            }
+
+            // 어항 이상 감지 및 알림
+            it.forEach { data ->
+                if(data.phValue < data.phWarningMin || data.phValue > data.phWarningMax){
+                    Log.d("TEST", "Y")
+                    displayNotification("PH")
                 }
             }
 
@@ -146,5 +163,41 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         authViewModel.logout()
+    }
+
+    fun createChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "AquaLife"
+            val descriptionText = "알림"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelID, name, importance).apply {
+                description = descriptionText
+            }
+
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun displayNotification(case : String){
+        val notificationID = 1
+        var title = ""
+        var text = ""
+
+        when(case){
+            "PH" -> {
+                title = "PH 경고"
+                text = "PH수치가 범위를 벗어났습니다."
+            }
+        }
+
+        val notification = NotificationCompat.Builder(this, channelID)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle(title)
+            .setContentText(text)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .build()
+
+        notificationManager.notify(notificationID, notification)
     }
 }

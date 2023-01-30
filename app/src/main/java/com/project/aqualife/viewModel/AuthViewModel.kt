@@ -57,7 +57,6 @@ class AuthViewModel @Inject constructor(private val authRepository : AuthReposit
         authRepository.changeFiltSetting(name, dayCode,time, filtCount)
     }
 
-
     fun logout(){
         authRepository.logout()
     }

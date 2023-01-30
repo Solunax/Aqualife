@@ -74,8 +74,8 @@ class AuthRepository @Inject constructor() {
         val a = String.format("%.1f",Maxvalue)
         val b = String.format("%.1f",Minvalue)
         val reference = firebaseDB.reference.child("${firebaseAuth.uid}").child(name).child("ph")
-        reference.child("warning_max").setValue(a)
-        reference.child("warning_min").setValue(b)
+        reference.child("warning_max").setValue(a.toDouble())
+        reference.child("warning_min").setValue(b.toDouble())
     }
 
     fun changeFiltSetting(name: String, dayCode: String, startTime : String ,amount: Int) {
