@@ -16,6 +16,7 @@ import androidx.activity.viewModels
 import androidx.core.app.NotificationCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.messaging.FirebaseMessaging
 import com.project.aqualife.adapter.ViewPagerAdapter
 import com.project.aqualife.data.AquariumData
 import com.project.aqualife.databinding.ActivityMainBinding
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        getToken()
         aquariumSpinner = binding.spinner
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         createChannel()
@@ -105,15 +107,6 @@ class MainActivity : AppCompatActivity() {
                         viewPager!!.currentItem = lastPosition
                     else
                         viewPager!!.currentItem = 0
-
-//                    if(currentState != ViewPager2.SCROLL_STATE_SETTLING){
-//                        val lastPosition = viewPager!!.adapter?.itemCount!!
-//
-//                        if(currentPos == 0)
-//                            viewPager!!.currentItem = lastPosition
-//                        else
-//                            viewPager!!.currentItem = 0
-//                    }
                 }
             }
 
@@ -159,12 +152,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 앱 종료기 Firebase sign out
+    // 앱 종료시 Firebase sign out
     override fun onDestroy() {
         super.onDestroy()
         authViewModel.logout()
     }
 
+    // Notification Channel 설정(OREO 이상)
     fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "AquaLife"
@@ -178,6 +172,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Notification 생성 및 표시
     private fun displayNotification(case : String){
         val notificationID = 1
         var title = ""
@@ -199,5 +194,15 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         notificationManager.notify(notificationID, notification)
+    }
+
+    // FCM 토큰 가져오기
+    private fun getToken(){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if(!task.isSuccessful)
+                Log.d("TOKEN", "token registration failed")
+            else
+                Log.d("TOKEN", task.result)
+        }
     }
 }
