@@ -10,3 +10,4 @@
 - 2022.10.17 Ph 화면 기능 구현(Firebase 사용)
 - 2022.11.27 Hilt 적용, Fragment View Model 사용 방식 변경
 - 2022.12.19 환수 기능 추가, 병합(동료 구현)
+- 2023.01.31 Notification 적용(현재 PH 범위 이상)
