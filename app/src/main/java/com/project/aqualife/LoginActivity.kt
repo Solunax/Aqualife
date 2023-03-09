@@ -51,5 +51,7 @@ class LoginActivity : AppCompatActivity() {
         register.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
+
+        startService(Intent(this, TerminationService::class.java))
     }
 }

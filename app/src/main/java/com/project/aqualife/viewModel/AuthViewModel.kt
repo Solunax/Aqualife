@@ -57,6 +57,11 @@ class AuthViewModel @Inject constructor(private val authRepository : AuthReposit
         authRepository.changeFiltSetting(name, dayCode,time, filtCount)
     }
 
+    // 토큰 DB 저장
+    fun updateToken(token : String){
+        authRepository.updateToken(token)
+    }
+
     fun logout(){
         authRepository.logout()
     }

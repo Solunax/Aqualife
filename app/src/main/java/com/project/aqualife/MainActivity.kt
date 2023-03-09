@@ -24,6 +24,7 @@ import com.project.aqualife.fragment.OnBackPressedListener
 import com.project.aqualife.viewModel.DataViewModel
 import com.project.aqualife.viewModel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -196,13 +197,15 @@ class MainActivity : AppCompatActivity() {
         notificationManager.notify(notificationID, notification)
     }
 
-    // FCM 토큰 가져오기
+    // FCM 토큰 가져오기 및 토큰 정보 DB 저장
     private fun getToken(){
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if(!task.isSuccessful)
                 Log.d("TOKEN", "token registration failed")
-            else
+            else{
                 Log.d("TOKEN", task.result)
+                authViewModel.updateToken(task.result)
+            }
         }
     }
 }

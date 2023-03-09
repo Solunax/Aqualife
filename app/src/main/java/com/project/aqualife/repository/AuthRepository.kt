@@ -141,6 +141,12 @@ class AuthRepository @Inject constructor() {
         })
     }
 
+    // 토큰 DB 저장
+    fun updateToken(token : String){
+        val reference = firebaseDB.reference.child("${firebaseAuth.uid}")
+        reference.child("token").setValue(token)
+    }
+
     fun logout(){
         firebaseAuth.signOut()
     }
