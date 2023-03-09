@@ -11,3 +11,5 @@
 - 2022.11.27 Hilt 적용, Fragment View Model 사용 방식 변경
 - 2022.12.19 환수 기능 추가, 병합(동료 구현)
 - 2023.01.31 Notification 적용(현재 PH 범위 이상)
+- 2023.03.04 FCM을 이용한 알림 기능 추가<br>
+![test1](https://user-images.githubusercontent.com/97011241/222886263-667fc307-8df4-4abf-a102-b5f356f3f497.png)
