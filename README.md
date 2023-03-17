@@ -13,3 +13,4 @@
 - 2023.01.31 Notification 적용(현재 PH 범위 이상)
 - 2023.03.04 FCM을 이용한 알림 기능 추가<br>
 ![test1](https://user-images.githubusercontent.com/97011241/222886263-667fc307-8df4-4abf-a102-b5f356f3f497.png)
+- 2023.03.09 생성된 FCM 토큰을 DB에 저장하는 코드 추가, 앱 강제 종료시 onDestory가 호출되지 않아 Firebase signOut이 제대로 동작하지 않는 문제 수정(Service를 상속받을 클래스에서 onTaskRemove 메소드를 오버라이드 하여 FirebaseAuth.getInstance().signOut()을 실행 후 서비스를 종료되게 함)
