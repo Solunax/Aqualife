@@ -24,7 +24,6 @@ import com.project.aqualife.fragment.OnBackPressedListener
 import com.project.aqualife.viewModel.DataViewModel
 import com.project.aqualife.viewModel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -36,15 +35,19 @@ class MainActivity : AppCompatActivity() {
     private val dataViewModel : DataViewModel by viewModels()
     private var backPressedListener : OnBackPressedListener? = null
     private var backPressedTime = 0L
-    lateinit var aquariumSpinner : Spinner
+    private lateinit var aquariumSpinner : Spinner
     lateinit var notificationManager : NotificationManager
     var aquariumList = ArrayList<AquariumData>()
     private val aquariumName = ArrayList<String>()
+    private var initialCheck = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val lastChoice = getSharedPreferences("choice",MODE_PRIVATE).getInt("lastChoice", 0)
+        Log.d("CHECK", lastChoice.toString())
 
         getToken()
         aquariumSpinner = binding.spinner
@@ -83,6 +86,10 @@ class MainActivity : AppCompatActivity() {
                 val adapter = ArrayAdapter(applicationContext, R.layout.aquarium_spinner, aquariumName)
                 aquariumSpinner.adapter = adapter
             }
+
+            // 초기 세팅(어항 데이터 로드 후 마지막으로 선택한 어항 자동 선택)
+            if(initialCheck)
+                aquariumSpinner.setSelection(lastChoice)
         }
 
         TabLayoutMediator(tabLayout, viewPager!!){ tab, pos ->
@@ -119,8 +126,15 @@ class MainActivity : AppCompatActivity() {
 
         aquariumSpinner.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                Log.d("CA", "CHANGED")
+                Log.d("CA", "CHANGED : $position")
                 dataViewModel.updateIndexValue(position)
+
+                if(!initialCheck){
+                    Log.d("UPDATE", "choice update / position $position")
+                    saveChoice(position)
+                }
+
+                initialCheck = false
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -160,7 +174,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Notification Channel 설정(OREO 이상)
-    fun createChannel() {
+        private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "AquaLife"
             val descriptionText = "알림"
@@ -207,5 +221,11 @@ class MainActivity : AppCompatActivity() {
                 authViewModel.updateToken(task.result)
             }
         }
+    }
+
+    private fun saveChoice(position : Int){
+        val editor = getSharedPreferences("choice", MODE_PRIVATE).edit()
+        editor.putInt("lastChoice", position)
+        editor.apply()
     }
 }
