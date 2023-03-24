@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     var aquariumList = ArrayList<AquariumData>()
     private val aquariumName = ArrayList<String>()
     private var initialCheck = true
+    private val notificationGroupID = "Aqualife"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,11 +75,15 @@ class MainActivity : AppCompatActivity() {
             }
 
             // 어항 이상 감지 및 알림
+            var index = 0
             it.forEach { data ->
-                if(data.phValue < data.phWarningMin || data.phValue > data.phWarningMax){
-                    Log.d("TEST", "Y")
-                    displayNotification("PH")
-                }
+                if(data.phValue < data.phWarningMin || data.phValue > data.phWarningMax)
+                    displayNotification(index, data.name,"PH")
+
+                if(data.co2State == "on")
+                    displayNotification(index, data.name, "Co2")
+
+                index++
             }
 
             // 만약 변경되었다면 adapter 를 갱신함
@@ -187,16 +192,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun groupNotification() : NotificationCompat.Builder{
+        return NotificationCompat.Builder(this, channelID)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentText("Aqualife 알림")
+            .setOnlyAlertOnce(true)
+            .setGroup(notificationGroupID)
+            .setGroupSummary(true)
+    }
+
     // Notification 생성 및 표시
-    private fun displayNotification(case : String){
-        val notificationID = 1
+    private fun displayNotification(index : Int, aquariumName : String, case : String){
+        var notificationID = 0
         var title = ""
         var text = ""
 
         when(case){
             "PH" -> {
-                title = "PH 경고"
+                notificationID = 10000 + (index * 10) + 0
+                title = "PH 경고($aquariumName)"
                 text = "PH수치가 범위를 벗어났습니다."
+            }
+
+            "Co2" -> {
+                notificationID = 10000 + (index * 10) + 1
+                title = "Co2 레귤레이터 동작 알림($aquariumName)"
+                text = "현재 Co2 레귤레이터가 동작중입니다."
             }
         }
 
@@ -206,9 +227,12 @@ class MainActivity : AppCompatActivity() {
             .setContentText(text)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
+            .setGroup(notificationGroupID)
+            .setOnlyAlertOnce(true)
             .build()
 
         notificationManager.notify(notificationID, notification)
+        notificationManager.notify(0, groupNotification().build())
     }
 
     // FCM 토큰 가져오기 및 토큰 정보 DB 저장
